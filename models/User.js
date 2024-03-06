@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "Contacts",
     }
-});
+},{timestamps: true});
 
 const User = mongoose.model("User", UserSchema);
 
