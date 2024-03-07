@@ -35,18 +35,18 @@ const UserSchema = new mongoose.Schema({
         require: true,
         default: `${url}/assets/jogging_brain_2.jpg`
     },
-    jobPosts: {
+    jobPosts: [{
         type: mongoose.Types.ObjectId,
         ref: "JobPost",
-    },
+    }],
     profileLinks:{
         type: Array,
         default: []
     },
-    contacts:{
+    contacts:[{
         type: mongoose.Types.ObjectId,
         ref: "Contacts",
-    }
+    }]
 },{timestamps: true});
 
 const User = mongoose.model("User", UserSchema);
