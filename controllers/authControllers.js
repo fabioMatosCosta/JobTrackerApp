@@ -58,6 +58,7 @@ export const login = async (req,res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
         
+        /* Changed the user data sent out, without password */
         const frontendUser = {
             _id: user._id,
             firstName: user.firstName,
