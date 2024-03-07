@@ -13,9 +13,18 @@ export const register = async (req,res) => {
             password
         } = req.body;
 
+        /* Unique Email Validation */
+
         const isUniqueEmail = await User.findOne({email});
         if(isUniqueEmail) return res.status(500).json({message: "Email already exists"});
 
+        /* Password Validation */
+
+        if(password.length < 8) return res.status(500).json({message: "Password must be at least 8 characters"});
+        if(!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)) return res.status(500).json({message: "Password must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number"});
+
+        /* Hash Password */
+        
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
 
@@ -27,7 +36,8 @@ export const register = async (req,res) => {
         });
 
         const savedUser = await newUser.save();
-        res.statyus(201).json(savedUser);
+        delete savedUser.password;
+        res.status(201).json(savedUser);
 
     } catch (err) {
         res.status(500).json({message: err.message});
@@ -52,4 +62,4 @@ export const login = async (req,res) => {
     }catch{
         res.status(500).json({ error: err.message })
     }
-}
+};

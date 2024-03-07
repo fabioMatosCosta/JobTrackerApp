@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 const PORT = process.env.PORT
 const url = `http://localhost:${PORT}` /* change later when deployed to process.env.APIURL */
@@ -26,14 +28,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        validate: {
-            validator: function (v) {
-                return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(v);
-            },
-            message: (props) => `${props.value} is not a valid password : 
-            - at least 8 characters,
-            - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number.`,
-        },
+        min: 8,
     },
     picturePath: {
         type: String,
