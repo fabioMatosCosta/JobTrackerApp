@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+const PORT = process.env.PORT
+const url = `http://localhost:${PORT}` /* change later when deployed to process.env.APIURL */
+
+
 const UserSchema = new mongoose.Schema({
     firstName: {
         type: String,
@@ -34,7 +38,7 @@ const UserSchema = new mongoose.Schema({
     picturePath: {
         type: String,
         require: true,
-        default: ""
+        default: `${url}/assets/jogging_brain_2.jpg`
     },
     jobPosts: {
         type: mongoose.Types.ObjectId,
