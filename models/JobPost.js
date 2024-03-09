@@ -43,9 +43,6 @@ const JobPostSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User",
     },
-    reply: {
-        type: String,
-    },
     isResearched: {
         type: Boolean,
         default: false,
@@ -61,7 +58,11 @@ const JobPostSchema = new mongoose.Schema({
     isReply: {
         type: Boolean,
         default: false,
-    }
+        
+    },
+    reply: {
+        type: String,
+    },
 },{timestamps: true});
 
 const JobPost = mongoose.model("JobPost", JobPostSchema);

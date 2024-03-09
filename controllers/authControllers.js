@@ -36,9 +36,20 @@ export const register = async (req,res) => {
         });
 
         const savedUser = await newUser.save();
-        delete savedUser.password;
-        res.status(201).json(savedUser);
 
+        /* Changed the user data sent out (without password) */
+        const frontendSavedUser = {
+            _id: savedUser._id,
+            firstName: savedUser.firstName,
+            lastName: savedUser.lastName,
+            email: savedUser.email,
+            picturePath: savedUser.picturePath,
+            profileLinks: savedUser.profileLinks,
+            jobPosts:  savedUser.jobPosts,
+            contacts: savedUser.contacts 
+        };
+
+        res.status(201).json(frontendSavedUser);
     } catch (err) {
         res.status(500).json({message: err.message});
     }
@@ -50,7 +61,7 @@ export const register = async (req,res) => {
 export const login = async (req,res) => {
     try{
         const { email, password } = req.body;
-        var user = await User.findOne({ email:email });
+        const user = await User.findOne({ email:email });
         if(!user) return res.status(400).json({message: "User not found"});
 
         const isMatch = await bcrypt.compare(password, user.password);
@@ -58,7 +69,7 @@ export const login = async (req,res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
         
-        /* Changed the user data sent out, without password */
+        /* Changed the user data sent out (without password) */
         const frontendUser = {
             _id: user._id,
             firstName: user.firstName,
@@ -68,10 +79,10 @@ export const login = async (req,res) => {
             profileLinks: user.profileLinks,
             jobPosts:  user.jobPosts,
             contacts: user.contacts 
-        }
+        };
         
         res.status(200).json({ token, frontendUser });
     }catch{
-        res.status(500).json({ error: err.message })
+        res.status(500).json({ error: err.message });
     }
 };
