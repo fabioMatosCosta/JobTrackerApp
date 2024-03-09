@@ -20,6 +20,8 @@ export const createPost =  async (req, res) => {
     try{
 
         const { userId } = req.params;
+        const user = await User.findById(userId);
+
         const newJobPost = new JobPost({
             title: req.body.title,
             type: req.body.type,
@@ -31,13 +33,15 @@ export const createPost =  async (req, res) => {
             });
         
         await newJobPost.save();
+        
+        user.jobPosts.push(newJobPost._id);
+        await user.save();
 
-        const user = await User.findById(userId);
         const postIdList = user.jobPosts;
         const jobPosts = await JobPost.find({ _id: { $in: postIdList } });
 
         res.status(200).json(jobPosts);
     } catch (err) {
-        res.status(409).json({ message: err.message });
+        res.status(409).json({ message: `create post error : ${	err.message }`});
     }
 }
