@@ -18,7 +18,6 @@ export const getPostList = async (req, res) => {
 /* Create */
 export const createPost =  async (req, res) => {
     try{
-
         const { userId } = req.params;
         const user = await User.findById(userId);
 
@@ -42,6 +41,7 @@ export const createPost =  async (req, res) => {
 
         res.status(200).json(jobPosts);
     } catch (err) {
-        res.status(409).json({ message: `create post error : ${	err.message }`});
+        res.status(409).json({ message:	err.message });
     }
-}
+};
+
