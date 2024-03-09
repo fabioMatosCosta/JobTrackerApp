@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-sixMonthFromNow = () => {
+const sixMonthFromNow = () => {
     var today = new Date();
     var targetMonth = today.getMonth() + 6;
     today.setMonth(targetMonth);
@@ -31,10 +31,10 @@ const JobPostSchema = new mongoose.Schema({
     companyWebsite: {
         type: String,
     },
-    contacts:{
+    contacts:[{
         type: mongoose.Types.ObjectId,
         ref: "Contacts",
-    },
+    }],
     jobLink:{
         type: String,
         required: true,

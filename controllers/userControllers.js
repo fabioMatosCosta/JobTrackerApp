@@ -3,7 +3,7 @@ import User from "../models/User.js";
 export const getUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await User.findById(id);
+        const user = await User.findById(id); // .populate("jobPosts"); do this later when jobposts are added
         
         /* Changed the user data sent out (without password) */
         const frontendUser = {

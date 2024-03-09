@@ -10,6 +10,7 @@ import morgan from "morgan";
 
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
+import postRoutes from "./routes/post.js";
 
 /* Configurations */
 
@@ -43,3 +44,4 @@ mongoose
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/posts", postRoutes);
