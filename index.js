@@ -9,6 +9,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/user.js";
 
 /* Configurations */
 
@@ -41,3 +42,4 @@ mongoose
 /* Routes */
 
 app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
