@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import JobPost from "../models/JobPost.js"
+import mongoose from "mongoose";
 
 /* Read */
 export const getPostList = async (req, res) => {
@@ -46,8 +47,7 @@ export const createPost =  async (req, res) => {
 };
 
 /* Update */
-
-export const updatePostBoleans = async (req, res) => {
+export const updatePostBooleans = async (req, res) => {
     try {
         const { postId , param } = req.params;
         const post = await JobPost.findById(postId);
@@ -97,3 +97,23 @@ export const updatePostBoleans = async (req, res) => {
         res.status(404).json({ message: err.message });
     }
 };
+
+export const updatePostReply = async ( req, res ) => {
+    try {
+        const { postId } = req.params;
+        const { newReply } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({ message: "Invalid post_id" });
+        }
+
+        const updatedPostReply = await JobPost.findByIdAndUpdate(
+            postId,
+            { reply: newReply },
+            { new: true }
+        );
+        res.status(200).json(updatedPostReply); 
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+}

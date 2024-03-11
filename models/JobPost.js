@@ -62,6 +62,7 @@ const JobPostSchema = new mongoose.Schema({
     },
     reply: {
         type: String,
+        default: "",
     },
 },{timestamps: true});
 
