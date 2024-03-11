@@ -1,6 +1,6 @@
 import  express from "express";
 import { verifyToken } from "../middleware/auth.js";
-import { getPostList , createPost } from "../controllers/postControllers.js";
+import { getPostList , createPost , updatePostResearch } from "../controllers/postControllers.js";
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ router.post("/:userId", verifyToken, createPost);
 
 /* Update */
 
-
+router.patch("/:postId/research", verifyToken, updatePostResearch);
 
 /* Delete */
 

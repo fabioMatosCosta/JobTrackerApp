@@ -45,3 +45,27 @@ export const createPost =  async (req, res) => {
     }
 };
 
+/* Update */
+
+export const updatePostResearch = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const post = await JobPost.findById(postId);
+
+        if(post.isResearched) {
+            post.isResearched.set(false);
+        } else {
+            post.isResearched.set(true);
+        }
+
+        const updatedPost = await JobPost.findByIdAndUpdate(
+            postId,
+            { isResearched: post.isResearched},
+            { new: true }
+        );
+        
+        res.status(200).json(updatedPost);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
