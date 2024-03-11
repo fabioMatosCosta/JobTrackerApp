@@ -49,22 +49,50 @@ export const createPost =  async (req, res) => {
 
 export const updatePostResearch = async (req, res) => {
     try {
-        const { postId } = req.params;
+        const { postId , param } = req.params;
         const post = await JobPost.findById(postId);
 
-        if(post.isResearched) {
-            post.isResearched.set(false);
-        } else {
-            post.isResearched.set(true);
-        }
-
-        const updatedPost = await JobPost.findByIdAndUpdate(
-            postId,
-            { isResearched: post.isResearched},
-            { new: true }
-        );
+        switch (param) {
+            case "isResearched":
+                post.isResearched ? post.isResearched = false : post.isResearched = true;
+                const updatedPostResearched = await JobPost.findByIdAndUpdate(
+                    postId,
+                    { isResearched: post.isResearched },
+                    { new: true }
+                );
+                res.status(200).json(updatedPostResearched);
+                break;
+            case "isCoverLetter":
+                post.isCoverLetter ? post.isCoverLetter = false : post.isCoverLetter = true;
+                const updatedPostCover = await JobPost.findByIdAndUpdate(
+                    postId,
+                    { isCoverLetter: post.isCoverLetter },
+                    { new: true }
+                );
+                res.status(200).json(updatedPostCover);
+                break;
+            case "isApplied":
+                post.isApplied ? post.isApplied = false : post.isApplied = true;
+                const updatedPostApplied = await JobPost.findByIdAndUpdate(
+                    postId,
+                    { isApplied: post.isApplied },
+                    { new: true }
+                );
+                res.status(200).json(updatedPostApplied);
+                break;
+            case "isReply":
+                post.isReply ? post.isReply = false : post.isReply = true;
+                const updatedPostReply = await JobPost.findByIdAndUpdate(
+                    postId,
+                    { isReply: post.isReply },
+                    { new: true }
+                );
+                res.status(200).json(updatedPostReply);
+                break;
+            default:
+                res.status(404).json({ message: "Invalid parameter" });
+        };
         
-        res.status(200).json(updatedPost);
     } catch (err) {
         res.status(404).json({ message: err.message });
     }

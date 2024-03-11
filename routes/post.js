@@ -14,7 +14,7 @@ router.post("/:userId", verifyToken, createPost);
 
 /* Update */
 
-router.patch("/:postId/research", verifyToken, updatePostResearch);
+router.patch("/:postId/:param", verifyToken, updatePostResearch);
 
 /* Delete */
 
