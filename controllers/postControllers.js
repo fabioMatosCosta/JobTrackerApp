@@ -47,7 +47,7 @@ export const createPost =  async (req, res) => {
 
 /* Update */
 
-export const updatePostResearch = async (req, res) => {
+export const updatePostBoleans = async (req, res) => {
     try {
         const { postId , param } = req.params;
         const post = await JobPost.findById(postId);
@@ -92,7 +92,7 @@ export const updatePostResearch = async (req, res) => {
             default:
                 res.status(404).json({ message: "Invalid parameter" });
         };
-        
+
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
