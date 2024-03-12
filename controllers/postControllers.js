@@ -13,7 +13,31 @@ export const getPostList = async (req, res) => {
         res.status(200).json(jobPosts);
     } catch (err) {
         res.status(404).json({ message: err.message });
-    }
+    };
+};
+
+export const getPost = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const post = await JobPost.findById(postId);
+        const frontEndPost = {
+            title: post.title,
+            type: post.type,
+            dateToApply: post.dateToApply,
+            jobLink: post.jobLink,
+            company: post.company,
+            companyWebsite: post.companyWebsite,
+            contacts: post.contacts,
+            isResearched: post.isResearched,
+            isCoverLetter: post.isCoverLetter,
+            isApplied: post.isApplied,
+            isReply: post.isReply,
+            reply: post.reply,
+            };
+        res.status(200).json(frontEndPost);
+    }catch (err) {
+        res.status(404).json({ message: err.message });
+    };
 };
 
 /* Create */
@@ -43,7 +67,7 @@ export const createPost =  async (req, res) => {
         res.status(200).json(jobPosts);
     } catch (err) {
         res.status(409).json({ message:	err.message });
-    }
+    };
 };
 
 /* Update */
@@ -92,16 +116,17 @@ export const updatePostBooleans = async (req, res) => {
             default:
                 res.status(404).json({ message: "Invalid parameter" });
         };
-
     } catch (err) {
         res.status(404).json({ message: err.message });
-    }
+    };
 };
 
 export const updatePostReply = async ( req, res ) => {
     try {
         const { postId } = req.params;
         const { newReply } = req.body;
+
+        /* Check if postId is valid, I was having errors with this */
 
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             return res.status(400).json({ message: "Invalid post_id" });
@@ -115,7 +140,7 @@ export const updatePostReply = async ( req, res ) => {
         res.status(200).json(updatedPostReply); 
     } catch (err) {
         res.status(404).json({ message: err.message });
-    }
+    };
 }
 
 /* Delete */

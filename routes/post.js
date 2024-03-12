@@ -2,6 +2,7 @@ import  express from "express";
 import { verifyToken } from "../middleware/auth.js";
 import { 
     getPostList , 
+    getPost,
     createPost , 
     updatePostBooleans, 
     updatePostReply, 
@@ -12,6 +13,7 @@ const router = express.Router();
 /* Read */
 
 router.get("/:userId", verifyToken, getPostList);
+router.get("/details/:postId", verifyToken, getPost);	
 
 /* Create */
 
