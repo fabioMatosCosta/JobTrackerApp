@@ -66,5 +66,47 @@ export const getUserContactList = async (req, res) => {
 };
 
 export const getPostContactList = async (req, res) => {
-    
+    try {
+        const { postId } = req.params;
+        const post = await JobPost.findById(postId);
+        const contactList = post.contacts;
+
+        const contacts = await Contacts.find({ _id: { $in: contactList } });
+        
+        res.status(200).json(contacts);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }; 
+};
+
+/* Update */
+
+export const updateContactIsContacted = async (req, res) => {
+    try {
+        const { contactId } = req.params;
+        const contact = await Contacts.findById(contactId);
+        contact.isContacted ? contact.isContacted = false : contact.isContacted = true;
+                const updatedContact = await Contacts.findByIdAndUpdate(
+                    contactId,
+                    { isContacted: contact.isContacted },
+                    { new: true }
+                );
+                res.status(200).json(updatedContact);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
+
+export const addContactNotes = async (req, res) => {
+    try {
+        const { contactId } = req.params;
+        const contact = await Contacts.findById(contactId);
+        const { notes } = req.body;
+        contact.notes.push(notes);
+        await contact.save();
+
+        res.status(200).json(contact);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
 }

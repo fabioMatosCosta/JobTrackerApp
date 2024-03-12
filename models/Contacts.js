@@ -37,9 +37,9 @@ const ContactsSchema = new mongoose.Schema({
     timeOfContact: {
         type: Date,
     },
-    notes: {
+    notes: [{
         type: String,
-    }
+    }]
 },{timestamps: true});
 
 const Contacts = mongoose.model("Contacts", ContactsSchema);
