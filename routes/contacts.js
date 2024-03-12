@@ -21,8 +21,8 @@ router.get("/post/:postId", verifyToken, getPostContactList );
 
 /* Update */
 
-router.patch("/:contactId", verifyToken, updateContactIsContacted );
-router.post("/:contactId", verifyToken, addContactNotes ) // Needs route naming change
+router.patch("/isContacted/:contactId", verifyToken, updateContactIsContacted );
+router.post("/:contactId", verifyToken, addContactNotes ); // Needs route naming change, but gives error
 
 /* Delete */
 
