@@ -117,3 +117,23 @@ export const updatePostReply = async ( req, res ) => {
         res.status(404).json({ message: err.message });
     }
 }
+
+/* Delete */
+
+export const deletePost = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const post = await JobPost.findById(postId);
+        if(post){
+            await JobPost.findByIdAndDelete(postId);
+            const user = await User.findById(post.userId);
+            user.jobPosts.pull(postId);
+            await user.save();
+            res.status(402).json({ message: "Post deleted successfully" });
+        }else{
+            res.status(404).json({ message: "Post not found" });
+        }
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    };
+};
