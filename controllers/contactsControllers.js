@@ -111,6 +111,20 @@ export const addContactNotes = async (req, res) => {
     }
 };
 
+export const addContactLinks = async (req, res) => {
+    try {
+        const { contactId } = req.params;
+        const contact = await Contacts.findById(contactId);
+        const { profileLinks } = req.body;
+        contact.profileLinks.push(profileLinks);
+        await contact.save();
+
+        res.status(200).json(contact);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+}
+
 
 /* Delete */
 
@@ -129,4 +143,21 @@ export const deleteContactNotes = async (req, res) => {
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
-}
+};
+
+export const deleteContactLinks = async (req, res) => {
+    try {
+        const { contactId, linkIndex } = req.params;
+        const contact = await Contacts.findById(contactId);
+
+        /* Verify if note exists in the array */
+        if(linkIndex < 0 || contact.profileLinks.length -1 < linkIndex ) 
+        return res.status(404).json({ message: "Link not found" });
+
+        contact.profileLinks.splice(linkIndex, 1);
+        await contact.save();
+        res.status(200).json(contact);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+};
