@@ -109,4 +109,24 @@ export const addContactNotes = async (req, res) => {
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
+};
+
+
+/* Delete */
+
+export const deleteContactNotes = async (req, res) => {
+    try {
+        const { contactId, noteIndex } = req.params;
+        const contact = await Contacts.findById(contactId);
+
+        /* Verify if note exists in the array */
+        if(noteIndex < 0 || contact.notes.length -1 < noteIndex ) 
+        return res.status(404).json({ message: "Note not found" });
+
+        contact.notes.splice(noteIndex, 1);
+        await contact.save();
+        res.status(200).json(contact);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
+    }
 }

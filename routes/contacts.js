@@ -5,7 +5,8 @@ import {
     createContact,
     getPostContactList,
     updateContactIsContacted,
-    addContactNotes
+    addContactNotes,
+    deleteContactNotes
         } from "../controllers/contactsControllers.js";
 
 const router = express.Router();
@@ -26,6 +27,7 @@ router.post("/:contactId", verifyToken, addContactNotes ); // Needs route naming
 
 /* Delete */
 
+router.delete("/:contactId/:noteIndex", verifyToken, deleteContactNotes);
 
 
 export default router;
