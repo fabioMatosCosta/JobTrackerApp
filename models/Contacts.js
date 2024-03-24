@@ -26,10 +26,9 @@ const ContactsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    profileLinks:{
-        type: Array,
-        default: []
-    },
+    profileLinks:[{
+        type: String,
+    }],
     isContacted: {
         type: Boolean,
         default: false,
