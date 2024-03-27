@@ -10,6 +10,8 @@ export const createContact = async (req, res) => {
         const { userId , postId } = req.params;
         const user = await User.findById(userId);
         const post = await JobPost.findById(postId);
+        const contactIdList = user.contacts;
+        const contactList = await Contacts.find({ _id: { $in: contactIdList } });
 
         const {
             firstName,
@@ -20,7 +22,8 @@ export const createContact = async (req, res) => {
             notes,
         } = req.body;
 
-        const isUniqueEmail = await Contacts.findOne({email});
+        const isUniqueEmail = contactList.find((contact) => contact.email === email);
+        console.log(isUniqueEmail)
         if(isUniqueEmail) return res.status(500).json({message: "Contact already exists"});
 
         const newContact = new Contacts({
@@ -40,10 +43,10 @@ export const createContact = async (req, res) => {
         await user.save();
         await post.save();
 
-        const contactIdList = user.contacts;
-        const contactList = await Contacts.find({ _id: { $in: contactIdList } });
+        const newContactIdList = user.contacts;
+        const newContactList = await Contacts.find({ _id: { $in: newContactIdList } });
 
-        res.status(200).json(contactList);
+        res.status(200).json(newContactList);
     } catch (err) {
         res.status(404).json({ message: err.message });
     }
