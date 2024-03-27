@@ -23,7 +23,6 @@ export const createContact = async (req, res) => {
         } = req.body;
 
         const isUniqueEmail = contactList.find((contact) => contact.email === email);
-        console.log(isUniqueEmail)
         if(isUniqueEmail) return res.status(500).json({message: "Contact already exists"});
 
         const newContact = new Contacts({
