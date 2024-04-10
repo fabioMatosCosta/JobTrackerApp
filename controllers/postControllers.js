@@ -154,7 +154,11 @@ export const deletePost = async (req, res) => {
             const user = await User.findById(post.userId);
             user.jobPosts.pull(postId);
             await user.save();
-            res.status(402).json({ message: "Post deleted successfully" }); {/* Change this to send the new post list */}
+
+            const postIdList = user.jobPosts;
+            const jobPosts = await JobPost.find({ _id: { $in: postIdList } });
+        
+            res.status(200).json(jobPosts);
         }else{
             res.status(404).json({ message: "Post not found" });
         }
