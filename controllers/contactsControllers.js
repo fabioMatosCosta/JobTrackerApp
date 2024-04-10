@@ -42,9 +42,9 @@ export const createContact = async (req, res) => {
         await user.save();
         await post.save();
 
-        const newContactIdList = user.contacts;
+        const newContactIdList = post.contacts;
         const newContactList = await Contacts.find({ _id: { $in: newContactIdList } });
-
+    
         res.status(200).json(newContactList);
     } catch (err) {
         res.status(404).json({ message: err.message });
