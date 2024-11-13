@@ -60,7 +60,6 @@ export const getUserContactList = async (req, res) => {
         const user = await User.findById(userId);
         const contactList = user.contacts;
         const contacts = await Contacts.find({ _id: { $in: contactList } });
-        
         res.status(200).json(contacts);
     } catch (err) {
         res.status(404).json({ message: err.message });
